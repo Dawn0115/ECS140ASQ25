@@ -1,0 +1,9 @@
+mode: set
+hw1/min/min.go:5.25,6.16 1 1
+hw1/min/min.go:9.2,9.19 1 1
+hw1/min/min.go:12.2,13.24 2 1
+hw1/min/min.go:18.2,18.12 1 1
+hw1/min/min.go:6.16,8.3 1 1
+hw1/min/min.go:9.19,11.3 1 1
+hw1/min/min.go:13.24,14.14 1 1
+hw1/min/min.go:14.14,16.4 1 1
