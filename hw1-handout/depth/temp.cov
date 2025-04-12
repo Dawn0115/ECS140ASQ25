@@ -1,0 +1,8 @@
+mode: set
+hw1/depth/depth.go:9.30,10.23 1 1
+hw1/depth/depth.go:11.30,13.11 1 1
+hw1/depth/depth.go:14.18,16.24 1 1
+hw1/depth/depth.go:17.19,21.19 3 1
+hw1/depth/depth.go:24.3,24.19 1 1
+hw1/depth/depth.go:25.10,27.64 1 1
+hw1/depth/depth.go:21.19,23.4 1 1

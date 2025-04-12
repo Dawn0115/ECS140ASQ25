@@ -20,6 +20,7 @@ func TestDepth(t *testing.T) {
 		{"1-x", 2},
 		{"(1 + 2) + (3 + X)", 3},
 		{"1 + 2 + 3 + X", 4},
+		{"(1 + 2) * (3 + X)", 3},
 		// TODO add more tests for 100% test coverage
 	}
 
