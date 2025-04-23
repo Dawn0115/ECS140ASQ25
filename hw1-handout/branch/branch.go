@@ -8,10 +8,40 @@ import (
 
 // branchCount should count the number of branching statements in the function.
 func branchCount(fn *ast.FuncDecl) uint {
-	//TODO write this function
-	return 9876
-}
+    var count uint
 
+    // ast.Inspect traverses fn.Body in depth-first order.
+    ast.Inspect(fn.Body, func(n ast.Node) bool {
+        if n == nil {
+            return false // travel down to the bottom
+        }
+
+		if _, isLit := n.(*ast.FuncLit); isLit {
+            return false
+        }
+
+
+      	
+        switch n.(type) {
+        case *ast.IfStmt:         
+            count++
+        case *ast.ForStmt:        
+            count++
+        case *ast.RangeStmt:      
+            count++
+        case *ast.SwitchStmt:    
+            count++
+        case *ast.TypeSwitchStmt: 
+            count++
+        case *ast.SelectStmt:     
+            count++
+        }
+
+        return true // keep traversing  
+    })
+
+    return count
+}
 // ComputeBranchFactors returns a map from the name of the function in the given
 // Go code to the number of branching statements it contains.
 func ComputeBranchFactors(src string) map[string]uint {

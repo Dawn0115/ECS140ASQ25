@@ -18,6 +18,8 @@ func TestSimplifyParseAndEval(t *testing.T) {
 		{"test5_in.go", "test5_out.go"},
 		{"test6_in.go", "test6_out.go"},
 		{"test7_in.go", "test7_out.go"},
+		{"test8_in.go", "test8_out.go"},
+
 	}
 
 	for _, test := range tests {

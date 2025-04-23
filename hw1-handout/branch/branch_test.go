@@ -202,6 +202,47 @@ func TestComputeBranchFactors(t *testing.T) {
 		}
 		return result
 	}
+		func with_selects() {
+    select {
+    case a <- ch:
+    case b := <-ch2:
+    default:
+    }
+    select {
+    case <-ch3:
+    }
+}
+
+func with_closure() {
+    if cond1 {
+    }
+    fn := func() {
+        // these three should *not* be counted:
+        if cond2 {}
+        for i := range []int{1, 2} {}
+        select { case <-ch: }
+    }
+    for range []int{1, 2, 3} {
+    }
+}
+
+func infinite_for() {
+    for {
+    }
+}
+
+func nested_closure() {
+    outer := func() {
+        if innerCond {
+        }
+        inner := func() {
+            if deepCond {
+            }
+        }
+    }
+    if topCond {
+    }
+}
 	`
 
 	tests := []struct {
@@ -220,6 +261,10 @@ func TestComputeBranchFactors(t *testing.T) {
 		{"mixed_switch_no_default_for_if", 3},
 		{"single_typeswitch_no_default", 1},
 		{"nested_if_no_else", 3},
+		{"with_selects", 2},
+		{"with_closure", 2},
+		{"infinite_for", 1},
+		{"nested_closure", 1},
 	}
 
 	branch_factors := ComputeBranchFactors(test_code)
