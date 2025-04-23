@@ -188,6 +188,8 @@ func TestComputeBranchFactors(t *testing.T) {
 			fmt.Println("It's a string!")
 		}
 	}
+	
+
 
 	func nested_if_no_else(x int) float64 {
 		var result float64 = 0
@@ -202,7 +204,7 @@ func TestComputeBranchFactors(t *testing.T) {
 		}
 		return result
 	}
-		func with_selects() {
+	func with_selects() {
     select {
     case a <- ch:
     case b := <-ch2:
@@ -213,36 +215,107 @@ func TestComputeBranchFactors(t *testing.T) {
     }
 }
 
-func with_closure() {
-    if cond1 {
-    }
-    fn := func() {
-        // these three should *not* be counted:
-        if cond2 {}
-        for i := range []int{1, 2} {}
-        select { case <-ch: }
-    }
-    for range []int{1, 2, 3} {
-    }
-}
+	func with_closure() {
+		if cond1 {
+		}
+		fn := func() {
+			// these three should *not* be counted:
+			if cond2 {}
+			for i := range []int{1, 2} {}
+			select { case <-ch: }
+		}
+		for range []int{1, 2, 3} {
+		}
+	}
 
-func infinite_for() {
-    for {
-    }
-}
+	func infinite_for() {
+		for {
+		}
+	}
 
-func nested_closure() {
-    outer := func() {
-        if innerCond {
-        }
-        inner := func() {
-            if deepCond {
-            }
-        }
-    }
-    if topCond {
-    }
-}
+	func nested_closure() {
+		outer := func() {
+			if innerCond {
+			}
+			inner := func() {
+				if deepCond {
+				}
+			}
+		}
+		if topCond {
+		}
+	}
+	type P struct{}
+
+	func (p P) Method() {
+		// three IfStmt: if, else-if, nested if
+		if condA {
+		} else if condB {
+		} else {
+			if condC {
+			}
+		}
+		// two nested SwitchStmt
+		switch v := some(); v {
+		case 1:
+			switch t := other(); t {
+			case "x":
+			case "y":
+			}
+		case 2:
+		}
+	}
+
+	func (p *P) PtrMethod() {
+		var x interface{}
+		// one TypeSwitchStmt
+		switch x.(type) {
+		case int:
+		case string:
+		default:
+		}
+	}
+
+	func ClosureTest() {
+		// one top-level IfStmt
+		if top {
+		}
+		// these must be ignored (FuncLit)
+		go func() {
+			if inner {}
+			for {}
+			select { case <-ch: }
+		}()
+	}
+
+	func ComplexLoop() {
+		// one ForStmt
+		for i := 0; i < 3; i++ {
+			// one SelectStmt
+			select {
+			case <-ch1:
+			case ch2 <- v:
+			}
+			// one RangeStmt + one nested IfStmt
+			for idx := range arr {
+				if filter(idx) {
+				}
+			}
+		}
+	}
+
+	func OnlySelect() {
+		// bare SelectStmt
+		select {}
+	}
+
+	func OnlyTypeSwitch() {
+		var x interface{}
+		// bare TypeSwitchStmt without default
+		switch x.(type) {
+		case bool:
+		case float64:
+	}
 	`
 
 	tests := []struct {
@@ -265,6 +338,12 @@ func nested_closure() {
 		{"with_closure", 2},
 		{"infinite_for", 1},
 		{"nested_closure", 1},
+		{"Method", 5},
+		{"PtrMethod", 1},
+		{"ClosureTest", 1},
+		{"ComplexLoop", 4},
+		{"OnlySelect", 1},
+		{"OnlyTypeSwitch", 1},
 	}
 
 	branch_factors := ComputeBranchFactors(test_code)

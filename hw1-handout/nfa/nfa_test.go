@@ -96,6 +96,21 @@ func TestReachable(t *testing.T) {
 		{"langTransitions", 0, 0, nil, true},
 		{"langTransitions", 0, 1, []rune{'a', 'a'}, false},
 		{"langTransitions", 0, 0, []rune{'a', 'b', 'a', 'a'}, false},
+		
+		{"dagTransitions", 0, 1, []rune{}, false},   
+		{"dagTransitions", 1, 1, []rune{}, true},  
+		{"expTransitions", 0, 0, nil, true},        
+		{"expTransitions", 0, 1, nil, false},        
+		{"expTransitions", 1, 1, []rune{}, true},    
+		{"expTransitions", 0, 2, []rune{}, false},   
+		{"langTransitions", 0, 1, []rune{}, false},  
+		{"langTransitions", 1, 1, []rune{}, true},   
+
+		// ----- new tests for unmapped-symbol (should not panic) -----
+		{"dagTransitions", 0, 3, []rune{'b'}, false}, 
+		{"expTransitions", 0, 0, []rune{'c'}, false}, 
+		{"langTransitions", 1, 0, []rune{'c'}, false},
+	
 
 		// TODO add more tests for 100% test coverage
 	}

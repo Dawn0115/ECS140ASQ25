@@ -22,7 +22,34 @@ func TestGetTriangleType(t *testing.T) {
 		{5, 3, 4, RightTriangle},   
 		{5, 5, 5, AcuteTriangle}, 
 		{7, 4, 5, ObtuseTriangle}, 
+		{30001, 1,     1,     UnknownTriangle}, 
+        {1,     20001, 1,     UnknownTriangle}, 
+        {1,     1,     10001, UnknownTriangle}, 
+        {0,     1,     1,     UnknownTriangle}, 
+        {1,     0,     1,     UnknownTriangle}, 
+        {1,     1,     0,     UnknownTriangle}, 
+        {-1,    1,     1,     UnknownTriangle},
+        {1,    -1,     1,     UnknownTriangle}, 
+        {1,     1,    -1,     UnknownTriangle}, 
 
+        // ==== InvalidTriangle (triangle inequality fails) ====
+        {1, 1, 2, InvalidTriangle}, 
+        {2, 1, 1, InvalidTriangle},  
+        {1, 2, 1, InvalidTriangle}, 
+
+        // ==== RightTriangle (only when a*a == b*b + c*c) ====
+        {5, 3, 4, RightTriangle},    
+        {13, 5, 12, RightTriangle},
+        {17, 8, 15, RightTriangle},  
+
+        // ==== AcuteTriangle (only when a*a < b*b + c*c) ====
+        {2, 3, 4, AcuteTriangle},    
+        {3, 4, 2, AcuteTriangle},   
+        {5, 5, 5, AcuteTriangle},   
+        // ==== ObtuseTriangle (only when a*a > b*b + c*c) ====
+        {7, 3, 5, ObtuseTriangle}, 
+        {9, 4, 7, ObtuseTriangle},  
+        {29999, 20000, 10000, ObtuseTriangle}, // large obtuse
 
 	}
 

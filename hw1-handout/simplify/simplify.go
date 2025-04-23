@@ -43,7 +43,9 @@ func Simplify(e expr.Expr, env expr.Env) expr.Expr {
 					return expr.Literal(valx * valy)
 				case '/':
 					if valy != 0 {
-						return expr.Literal(valx / valy)
+						// **integer** division now
+						q := int(valx) / int(valy)
+						return expr.Literal(float64(q))
 					}
 				}
 			}

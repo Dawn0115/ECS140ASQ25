@@ -36,7 +36,23 @@ var tests = []Test{
 		in:  []int{8,-3,2,-10},
 		out: -10, // min updated multiple times
 	},
-	// TODO add more tests for 100% test coverage
+	{in: []int{0},               out: 0},
+
+	// single-element negative
+	{in: []int{-5},              out: -5},
+
+	// descending-order: multiple positive updates
+	{in: []int{4, 3, 2, 1},      out: 1},
+
+	// min in the middle (only one update)
+	{in: []int{5, 1, 5},          out: 1},
+	{in: []int{3, 4, 2},          out: 2},
+
+	// all-equal negatives
+	{in: []int{-2, -2, -2},      out: -2},
+
+	// mixture of large pos and neg
+	{in: []int{1000000, -1000000, 0}, out: -1000000},
 }
 
 func TestMin(t *testing.T) {
