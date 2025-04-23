@@ -67,7 +67,7 @@ func rewriteCalls(node ast.Node) (modified bool) {
         modified = true
         return true
     })
-    return
+    return modified
 }
 func SimplifyParseAndEval(src string) string {
 	fset := token.NewFileSet()
