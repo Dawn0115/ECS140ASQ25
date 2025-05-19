@@ -1,15 +1,19 @@
-isUnion([], S, S).
-isUnion([X|Xs], S, U) :-
-    member(X, S),             % X already in S, skip it
-    isUnion(Xs, S, U).
-isUnion([X|Xs], S, [X|U]) :-
-    \+ member(X, S),          % X not in S, include it
-    isUnion(Xs, S, U).
+isUnion([], Set, Set).
+isUnion([H|T], Set, Union) :-
+    member(H, Set),           
+    isUnion(T, Set, Union).
+isUnion([H|T], Set, [H|Union]) :-
+    \+ member(H, Set),
+    isUnion(T, Set, Union).
 
-isIntersection(Set1,Set2,Intersection) :-
-    %% remove fail and add body/other cases for this predicate
-    fail.
 
-isEqual(Set1,Set2) :-
-    %% remove fail and add body/other cases for this predicate
-    fail.
+isIntersection([], _, []).
+isIntersection([H|T], Set2, [H|I]) :-
+    member(H, Set2),          % H is in the second set, add to I
+    isIntersection(T, Set2, I).
+isIntersection([H|T], Set2, I) :-
+    \+ member(H, Set2),       % H not in the second set, skip it
+    isIntersection(T, Set2, I).
+
+isEqual(S1, S2) :-
+    \+ (member(ElementinS1, S1), \+ member(ElementinS1, S2)), \+ (member(ElementinS2, S2), \+ member(ElementinS2, S1)).
