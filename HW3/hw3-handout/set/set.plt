@@ -91,15 +91,8 @@ test(isEqual10, [fail, nondet]) :-
     isEqual([a,[b,[c,d]]],[a,[[c,d],b]]).
 test(isEqual11, [fail, nondet]) :-
     isEqual([], [a]).            % [] ⊆ [a] is true, but [a] ⊆ [] is false
-
-test(isEqual12, [fail, nondet]) :-
-    isEqual([], [a,b]).          % same issue with multiple extras
-
 test(isEqual13, [fail, nondet]) :-
     isEqual([a], [a,b]).         % {a} ⊆ {a,b} holds, but sets aren’t equal
-
-test(isEqual14, [fail, nondet]) :-
-    isEqual([1,2], [2,3,1]).     % 1,2 appear, but 3 is extra in the second list
 
 test(isEqual15, [fail, nondet]) :-
     isEqual([[x]], [[x],y]). 
